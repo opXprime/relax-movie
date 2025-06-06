@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>RELAX MOVIE - Login</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background: #0f0f0f;
+      background-attachment: fixed;
+      color: #fff;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      box-shadow: 
+        inset 0 0 100px rgba(0, 255, 255, 0.2),
+        inset 0 0 100px rgba(255, 0, 255, 0.2);
+      animation: neonGlow 8s ease-in-out infinite;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    @keyframes neonGlow {
+      0%, 100% { box-shadow: inset 0 0 100px rgba(0, 255, 255, 0.2), inset 0 0 100px rgba(255, 0, 255, 0.2); }
+      50% { box-shadow: inset 0 0 150px rgba(0, 255, 255, 0.3), inset 0 0 150px rgba(255, 0, 255,  Expiration: 0.3); }
+    }
+
+    header {
+      width: 100%;
+      background: transparent;
+      padding: 20px;
+      text-align: center;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 48px;
+      font-weight: bold;
+      color: #e50914;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .logo span {
+      display: inline-block;
+      animation: bounce 1.5s ease-in-out infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .logo span:nth-child(n) { animation-delay: calc(0.1s * var(--i)); }
+
+    nav {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+    }
+
+    .login-buttons {
+      display: flex;
+      gap: 20px;
+    }
+
+    .btn {
+      padding: 14px 28px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-login {
+      background: #e50914;
+      color: #fff;
+    }
+
+    .btn-login:hover {
+      background: #f40612;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(229, 9, 20, 0.5);
+    }
+
+    .btn-login:focus {
+      outline: 3px solid #ff4d4d;
+      outline-offset: 2px;
+    }
+
+    .btn-login:active {
+      transform: translateY(0);
+      box-shadow: none;
+    }
+
+    .btn-admin {
+      background: #1f8dd6;
+      color: #fff;
+    }
+
+    .btn-admin:hover {
+      background: #2a9df4;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(31, 141, 214, 0.5);
+    }
+
+    .btn-admin:focus {
+      outline: 3px solid #66b3ff;
+      outline-offset: 2px;
+    }
+
+    .btn-admin:active {
+      transform: translateY(0);
+      box-shadow: none;
+    }
+
+    @media (max-width: 600px) {
+      header {
+        flex-direction: column;
+        padding: 15px;
+      }
+
+      .logo {
+        font-size: 32px;
+        margin-bottom: 15px;
+      }
+
+      @keyframes bounce {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-5px); }
+      }
+
+      nav {
+        position: static;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+      }
+
+      .login-buttons {
+        flex-direction: row;
+        gap: 15px;
+        justify-content: center;
+      }
+
+      .btn {
+        padding: 10px 20px;
+        font-size: 14px;
+      }
+    }
+
+    main {
+      padding: 20px;
+      min-height: 100vh;
+    }
+
+    .tagline {
+      text-align: center;
+      font-size: 22px;
+      font-weight: bold;
+      margin: 30px;
+      color: #ffcc00;
+      text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
+    }
+
+    .description {
+      text-align: center;
+      font-size: 18px;
+      margin-bottom: 20px;
+      color: #f0f0f0;
+      background-color: rgba(0, 0, 0, 0.8);
+      padding: 15px 25px;
+      border-radius: 8px;
+      display: block;
+      max-width: 90%;
+      margin: 0 auto 20px;
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+    }
+
+    .movie-preview h3 {
+      text-align: center;
+      font-size: 28px;
+      margin: 40px 0 20px;
+      color: #fff;
+      text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
+    }
+
+    .scroll-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .preview-card {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      padding: 10px;
+      width: 150px;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .preview-card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+    }
+
+    .preview-card:focus {
+      outline: 3px solid #e50914;
+      outline-offset: 2px;
+    }
+
+    .preview-card img {
+      width: 100%;
+      border-radius: 8px;
+    }
+
+    .preview-card p {
+      margin-top: 8px;
+      font-size: 14px;
+      text-align: center;
+      color: #f0f0f0;
+    }
+
+    .preview-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .preview-card:hover .preview-overlay {
+      opacity: 1;
+    }
+
+    .preview-overlay span {
+      color: #fff;
+      font-size: 14px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    footer {
+      background: rgba(0, 0, 0, 0.9);
+      padding: 30px 20px;
+      text-align: center;
+      font-size: 14px;
+      color: #ccc;
+    }
+
+    .social-icons a {
+      margin: 0 10px;
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    @media (max-width: 600px) {
+      .tagline {
+        font-size: 18px;
+        margin: 20px;
+      }
+
+      .description {
+        font-size: 16px;
+        padding: 10px 20px;
+      }
+
+      .movie-preview h3 {
+        font-size: 24px;
+        margin: 30px 0 15px;
+      }
+
+      .preview-card {
+        width: 130px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <span style="--i:1">R</span><span style="--i:2">E</span><span style="--i:3">L</span><span style="--i:4">A</span><span style="--i:5">X</span>
+      <span style="--i:6">M</span><span style="--i:7">O</span><span style="--i:8">V</span><span style="--i:9">I</span><span style="--i:10">E</span>
+    </div>
+    <nav>
+      <div class="login-buttons">
+        <a href="login.html">
+          <button class="btn btn-login" aria-label="User Login">
+            <span class="icon">👤</span> Login
+          </button>
+        </a>
+        <a href="admin.php">
+          <button class="btn btn-admin" aria-label="Admin Login">
+            <span class="icon">🔒</span> Admin
+          </button>
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <div class="tagline">Thousands of popular movies in every genre - now in 4K!</div>
+    <div class="description">
+      Discover a vast collection of top-rated movies, critically acclaimed TV series, and trending anime — all in stunning 4K. <br>
+      Explore popular titles across genres, curated by audience ratings and global popularity. Whether you're into thrillers, drama, sci-fi, or animated adventures, RELAX MOVIE brings entertainment to your fingertips — anytime, anywhere.
+    </div>
+
+    <div class="movie-preview">
+      <h3>Movie Previews</h3>
+      <div class="scroll-grid">
+        <div class="preview-card" onclick="alertLogin('Inception')" tabindex="0">
+          <img src="https://image.tmdb.org/t/p/original/ljsZTbVsrQSqZgWeep2B1QiDKuh.jpg" alt="Inception movie poster">
+          <p>Inception</p>
+          <div class="preview-overlay"><span>IMDb 8.8</span></div>
+        </div>
+        <div class="preview-card" onclick="alertLogin('Avatar')" tabindex="0">
+          <img src="https://image.tmdb.org/t/p/original/kyeqWdyUXW608qlYkRqosgbbJyK.jpg" alt="Avatar movie poster">
+          <p>Avatar</p>
+          <div class="preview-overlay"><span>IMDb 7.8</span></div>
+        </div>
+        <div class="preview-card" onclick="alertLogin('The Dark Knight')" tabindex="0">
+          <img src="https://image.tmdb.org/t/p/w200/qJ2tW6WMUDux911r6m7haRef0WH.jpg" alt="The Dark Knight movie poster">
+          <p>The Dark Knight</p>
+          <div class="preview-overlay"><span>IMDb 9.0</span></div>
+        </div>
+        <div class="preview-card" onclick="alertLogin('Interstellar')" tabindex="0">
+          <img src="https://image.tmdb.org/t/p/original/9cqNxx0GxF0bflZmeSMuL5tnGzr.jpg" alt="Interstellar movie poster">
+          <p>Interstellar</p>
+          <div class="preview-overlay"><span>IMDb 8.6</span></div>
+        </div>
+        <div class="preview-card" onclick="alertLogin('Avengers: Endgame')" tabindex="0">
+          <img src="https://image.tmdb.org/t/p/w200/ulzhLuWrPK07P1YkdWQLZnQh1JL.jpg" alt="Avengers: Endgame movie poster">
+          <p>Endgame</p>
+          <div class="preview-overlay"><span>IMDb 8.4</span></div>
+        </div>
+        <div class="preview-card" onclick="alertLogin('Joker')" tabindex="0">
+          <img src="https://image.tmdb.org/t/p/w200/udDclJoHjfjb8Ekgsd4FDteOkCU.jpg" alt="Joker movie poster">
+          <p>Joker</p>
+          <div class="preview-overlay"><span>IMDb 8.4</span></div>
+        </div>
+        <div class="preview-card" onclick="alertLogin('Black Panther')" tabindex="0">
+          <img src="https://image.tmdb.org/t/p/w200/uxzzxijgPIY7slzFvMotPv8wjKA.jpg" alt="Black Panther movie poster">
+          <p>Black Panther</p>
+          <div class="preview-overlay"><span>IMDb 7.3</span></div>
+        </div>
+        <div class="preview-card" onclick="alertLogin('Spider-Man: No Way Home')" tabindex="0">
+          <img src="https://image.tmdb.org/t/p/w200/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg" alt="Spider-Man: No Way Home movie poster">
+          <p>Spider-Man: No Way Home</p>
+          <div class="preview-overlay"><span>IMDb 8.2</span></div>
+        </div>
+        <div class="preview-card" onclick="alertLogin('Frozen II')" tabindex="0">
+          <img src="https://image.tmdb.org/t/p/w200/pjeMs3yqRmFL3giJy4PMXWZTTPa.jpg" alt="Frozen II movie poster">
+          <p>Frozen II</p>
+          <div class="preview-overlay"><span>IMDb 6.8</span></div>
+        </div>
+        <div class="preview-card" onclick="alertLogin('The Lion King')" tabindex="0">
+          <img src="https://image.tmdb.org/t/p/w200/2bXbqYdUdNVa8VIWXVfclP2ICtT.jpg" alt="The Lion King movie poster">
+          <p>The Lion King</p>
+          <div class="preview-overlay"><span>IMDb 6.8</span></div>
+        </div>
+        <div class="preview-card" onclick="alertLogin('Tenet')" tabindex="0">
+          <img src="https://image.tmdb.org/t/p/w200/k68nPLbIST6NP96JmTxmZijEvCA.jpg" alt="Tenet movie poster">
+          <p>Tenet</p>
+          <div class="preview-overlay"><span>IMDb 7.3</span></div>
+        </div>
+        <div class="preview-card" onclick="alertLogin('The Batman')" tabindex="0">
+          <img src="https://image.tmdb.org/t/p/w200/74xTEgt7R36Fpooo50r9T25onhq.jpg" alt="The Batman movie poster">
+          <p>The Batman</p>
+          <div class="preview-overlay"><span>IMDb 7.8</span></div>
+        </div>
+        <div class="preview-card" onclick="alertLogin('Doctor Strange')" tabindex="0">
+          <img src="https://image.tmdb.org/t/p/w200/uGBVj3bEbCoZbDjjl9wTxcygko1.jpg" alt="Doctor Strange movie poster">
+          <p>Doctor Strange</p>
+          <div class="preview-overlay"><span>IMDb 7.5</span></div>
+        </div>
+        <div class="preview-card" onclick="alertLogin('Guardians of the Galaxy')" tabindex="0">
+          <img src="https://image.tmdb.org/t/p/w200/r7vmZjiyZw9rpJMQJdXpjgiCOk9.jpg" alt="Guardians of the Galaxy movie poster">
+          <p>Guardians of the Galaxy</p>
+          <div class="preview-overlay"><span>IMDb 8.0</span></div>
+        </div>
+        <div class="preview-card" onclick="alertLogin('Wakanda Forever')" tabindex="0">
+          <img src="https://image.tmdb.org/t/p/w200/ps2oKfhY6DL3alynlSqY97gHSsg.jpg" alt="Black Panther: Wakanda Forever movie poster">
+          <p>Wakanda Forever</p>
+          <div class="preview-overlay"><span>IMDb 6.7</span></div>
+        </div>
+        <div class="preview-card" onclick="alertLogin('John Wick 4')" tabindex="0">
+          <img src="https://image.tmdb.org/t/p/w200/vZloFAK7NmvMGKE7VkF5UHaz0I.jpg" alt="John Wick: Chapter 4 movie poster">
+          <p>John Wick 4</p>
+          <div class="preview-overlay"><span>IMDb 7.7</span></div>
+        </div>
+        <div class="preview-card" onclick="alertLogin('Oppenheimer')" tabindex="0">
+          <img src="https://image.tmdb.org/t/p/original/8Gxv8gSFCU0XGDykEGv7zR1n2ua.jpg" alt="Oppenheimer movie poster">
+          <p>Oppenheimer</p>
+          <div class="preview-overlay"><span>IMDb 8.3</span></div>
+        </div>
+        <div class="preview-card" onclick="alertLogin('Barbie')" tabindex="0">
+          <img src="https://image.tmdb.org/t/p/w200/iuFNMS8U5cb6xfzi51Dbkovj7vM.jpg" alt="Barbie movie poster">
+          <p>Barbie</p>
+          <div class="preview-overlay"><span>IMDb 6.8</span></div>
+        </div>
+        <div class="preview-card" onclick="alertLogin('Dune')" tabindex="0">
+          <img src="https://image.tmdb.org/t/p/w200/d5NXSklXo0qyIYkgV94XAgMIckC.jpg" alt="Dune movie poster">
+          <p>Dune</p>
+          <div class="preview-overlay"><span>IMDb 8.0</span></div>
+        </div>
+        <div class="preview-card" onclick="alertLogin('No Time to Die')" tabindex="0">
+          <img src="https://image.tmdb.org/t/p/w200/iUgygt3fscRoKWCV1d0C7FbM9TP.jpg" alt="No Time to Die movie poster">
+          <p>No Time to Die</p>
+          <div class="preview-overlay"><span>IMDb 7.3</span></div>
+        </div>
+        <div class="preview-card" onclick="alertLogin('Parasite')" tabindex="0">
+          <img src="http://image.tmdb.org/t/p/original/7IiTTgloJzvGI1TAYymCfbfl3vT.jpg" alt="Parasite movie poster">
+          <p>Parasite</p>
+          <div class="preview-overlay"><span>IMDb 8.5</span></div>
+        </div>
+        <div class="preview-card" onclick="alertLogin('Breaking Bad')" tabindex="0">
+          <img src="https://image.tmdb.org/t/p/original/ineINITIAL: LOBPG8AZsluYwnkMpHRyu7L.jpg" alt="Breaking Bad series poster">
+          <p>Breaking Bad</p>
+          <div class="preview-overlay"><span>IMDb 9.5</span></div>
+        </div>
+        <div class="preview-card" onclick="alertLogin('Arcane')" tabindex="0">
+          <img src="https://image.tmdb.org/t/p/original/fqldf2t8ztc9aiwn3k6mlX3tvRT.jpg" alt="Arcane series poster">
+          <p>Arcane</p>
+          <div class="preview-overlay"><span>IMDb 9.0</span></div>
+        </div>
+        <div class="preview-card" onclick="alertLogin('Dan Da Dan')" tabindex="0">
+          <img src="https://image.tmdb.org/t/p/original/6qfZAOEUFIrbUH3JvePclx1nXzz.jpg" alt="Dan Da Dan series poster">
+          <p>Dan Da Dan</p>
+          <div class="preview-overlay"><span>IMDb 8.7</span></div>
+        </div>
+        <div class="preview-card" onclick="alertLogin('Chernobyl')" tabindex="0">
+          <img src="https://image.tmdb.org/t/p/original/hlLXt2tOPT6RRnjiUmoxyG1LTFi.jpg" alt="Chernobyl series poster">
+          <p>Chernobyl</p>
+          <div class="preview-overlay"><span>IMDb 9.3</span></div>
+        </div>
+        <div class="preview-card" onclick="alertLogin('Attack On Titan')" tabindex="0">
+          <img src="https://image.tmdb.org/t/p/original/hTP1DtLGFamjfu8WqjnuQdP1n4i.jpg" alt="Attack on Titan series poster">
+          <p>Attack on Titan</p>
+          <div class="preview-overlay"><span>IMDb 9.0</span></div>
+        </div>
+        <div class="preview-card" onclick="alertLogin('You')" tabindex="0">
+          <img src="https://image.tmdb.org/t/p/original/oANi0vEE92nuijiZQgPZ88FSxqQ.jpg" alt="You series poster">
+          <p>You</p>
+          <div class="preview-overlay"><span>IMDb 7.7</span></div>
+        </div>
+        <div class="preview-card" onclick="alertLogin('Interstellar')" tabindex="0">
+          <img src="https://image.tmdb.org/t/p/original/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg" alt="Interstellar movie poster">
+          <p>Interstellar</p>
+          <div class="preview-overlay"><span>IMDb 8.6</span></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div>Contact us: support@relaxmovie.com | +45 31 51 44 554, </div>
+    <div class="social-icons">
+      <a href="#">Facebook</a> | <a href="#">Instagram</a> | <a href="#">Twitter</a>
+    </div>
+    <div>© 2025 RELAX MOVIE. All rights reserved.</div>
+  </footer>
+
+  <script>
+    function alertLogin(movie) {
+      alert(`Please log in to watch "${movie}" in full HD 4K.`);
+    }
+
+    document.querySelectorAll('.preview-card').forEach(card => {
+      card.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          card.click();
+        }
+      });
+    });
+  </script>
+</body>
+</html>

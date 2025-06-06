@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sign Up - Movelist</title>
+  <link rel="stylesheet" href="css/login.css">
+</head>
+<body class="dark-theme">
+  <div class="login-container">
+    <div id="errorMessage" style="color: rgb(250, 247, 247); font-weight: bold; margin-bottom: 20px;"></div>
+
+    <script>
+      const params = new URLSearchParams(window.location.search);
+      const error = params.get("error");
+
+      const errorMap = {
+        email_exists: "This email is already registered.",
+        username_exists: "This username is already taken.",
+        underage: "You must be at least 18 years old to sign up.",
+        password_mismatch: "Passwords do not match.",
+        security_required: "Please select a security question and answer.",
+        username_length: "Username must be between 5 and 15 characters."
+      };
+
+      const errorBox = document.getElementById("errorMessage");
+      if (error && errorMap[error]) {
+        errorBox.textContent = errorMap[error];
+        setTimeout(() => { errorBox.textContent = ""; }, 3000);
+      }
+    </script>
+
+    <form class="login-box" action="signup.php" method="POST">
+      <h2>Create Your Movelist Account</h2>
+
+      <label for="username">Username</label>
+      <input type="text" id="username" name="username" placeholder="Choose a username" required minlength="5" maxlength="15" />
+
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" placeholder="Enter your email" required />
+
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" placeholder="Create a password" required />
+
+      <label for="confirm-password">Confirm Password</label>
+      <input type="password" id="confirm-password" name="confirm_password" placeholder="Repeat your password" required />
+
+      <label for="birthdate">Birthdate</label>
+      <input type="date" id="birthdate" name="birthdate" required />
+
+      <label for="security_question">Security Question</label>
+      <select name="security_question" id="security_question" required>
+        <option value="">Select a question</option>
+        <option value="What is your favorite movie?">What is your favorite movie?</option>
+        <option value="What is your pet's name?">What is your pet's name?</option>
+        <option value="What city were you born in?">What city were you born in?</option>
+      </select>
+
+      <label for="security_answer">Your Answer</label>
+      <input type="text" id="security_answer" name="security_answer" placeholder="Answer your selected question" required />
+
+      <button type="submit">Sign Up</button>
+
+      <p class="signup-link">
+        Already have an account? <a href="login.html">Login here</a>
+      </p>
+    </form>
+  </div>
+
+  <script>
+    // Prevent selecting a birthdate under 18
+    const birthdateInput = document.getElementById('birthdate');
+    const today = new Date();
+    const minAge = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
+    birthdateInput.max = minAge.toISOString().split('T')[0];
+  </script>
+</body>
+</html>

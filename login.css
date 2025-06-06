@@ -1,0 +1,134 @@
+/* Login Page Styles */
+
+
+/* Transparent Email & Date of Birth Fields */
+.login-box input[type="email"],
+.login-box input[type="date"] {
+  width: 100%;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    border: none;
+    border-radius: 6px;
+    background-color: #2a2a2a;
+    color: #fff;
+    font-size: 1rem;
+  }
+  
+  .signup-box input::placeholder {
+    color: #aaa;
+  }
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: transparent;
+
+  }
+  
+  
+  .login-box {
+    background-color: rgba(0, 0, 0, 0.6); /* black with 60% opacity */
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: none;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  .login-box h2 {
+    margin-bottom: 1.5rem;
+    color: #ffffff;
+  }
+  
+  .login-box label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #ccc;
+  }
+  
+  .login-box input[type="text"],
+  .login-box input[type="password"] {
+    width: 100%;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    border: none;
+    border-radius: 5px;
+    background-color: #2a2a2a;
+    color: #fff;
+  }
+  
+  .login-box input::placeholder {
+    color: #aaa;
+  }
+  
+  .login-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+  }
+  
+  .login-options a {
+    color: #e50914;
+    text-decoration: none;
+  }
+  
+  .login-box button {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: #e50914;
+    color: white;
+    border: none;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .login-box button:hover {
+    background-color: #ff1e1e;
+  }
+  
+  .signup-link {
+    text-align: center;
+    margin-top: 1rem;
+    color: rgb(16, 238, 16);
+  }
+  .signup-link a {
+    color: #09e54b;
+    text-decoration: none;
+  }
+  body.dark-theme {
+    background: url('../img/background.jpg') no-repeat center center fixed;
+    background-size: cover;
+    font-family: Arial, sans-serif;
+    color: white;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .back-button-container {
+  text-align: center;
+  margin-top: 15px;
+}
+
+.back-button {
+  display: inline-block;
+  padding: 8px 16px;
+  background-color: #444;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.back-button:hover {
+  background-color: #666;
+}

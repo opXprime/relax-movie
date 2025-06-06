@@ -1,0 +1,109 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RELAX MOVIE</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Outfit', sans-serif;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.9)),
+                  url('https://images.unsplash.com/photo-1496751599183-6b59f4a251ea?crop=entropy&cs=tinysrgb&fit=max&ixid=MnwzNjUyOXwwfDF8c2VhY2h8Mnx8YmxhY2t8ZW58MHx8fHx8&ixlib=rb-1.2.1&q=80&w=1080') no-repeat center center / cover;
+      z-index: -1;
+    }
+
+    .glass {
+      background: rgba(31, 41, 55, 0.6);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+  </style>
+</head>
+<body class="text-white min-h-screen flex flex-col">
+
+  <!-- Navbar -->
+  <nav class="glass sticky top-0 z-50 text-white p-4 shadow-md flex justify-between items-center backdrop-blur">
+    <h1 class="text-2xl font-bold tracking-wide">🎬 RELAX MOVIE</h1>
+    <div class="flex items-center space-x-3 text-sm">
+      <a href="index.html" class="hover:scale-105 transition bg-gray-700 px-4 py-2 rounded-lg hover:bg-gray-600">Home</a>
+      <a href="#" class="hover:scale-105 transition bg-gray-700 px-4 py-2 rounded-lg hover:bg-gray-600">Watchlist</a>
+      <a href="#" class="hover:scale-105 transition bg-gray-700 px-4 py-2 rounded-lg hover:bg-gray-600">Search</a>
+      <a href="#" class="hover:scale-105 transition bg-gray-700 px-4 py-2 rounded-lg hover:bg-gray-600">Profile</a>
+      <a href="#" class="hover:scale-105 transition bg-white text-black px-4 py-2 rounded-lg hover:bg-gray-200">Logout</a>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="p-6 sm:p-8 max-w-6xl mx-auto w-full flex-grow">
+    <h2 class="text-4xl font-bold mb-8 text-center">🎥 Featured Movies</h2>
+    <div id="movieGrid" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 text-white"></div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="text-center py-6 text-gray-200 text-sm border-t border-gray-700">
+    &copy; 2025 RELAX MOVIE. All rights reserved.
+  </footer>
+
+  <script>
+    async function loadMovies() {
+      const movieGrid = document.getElementById('movieGrid');
+      movieGrid.innerHTML = '<p class="text-gray-400 text-center">Loading movies...</p>';
+
+      try {
+        const res = await fetch('movies.php');
+        const movies = await res.json();
+
+        if (!Array.isArray(movies)) throw new Error("Invalid response");
+
+        if (movies.length === 0) {
+          movieGrid.innerHTML = '<p class="text-center text-gray-300">No movies found.</p>';
+          return;
+        }
+
+        movieGrid.innerHTML = '';
+
+        movies.forEach(movie => {
+          const card = document.createElement('div');
+          card.className = 'glass p-5 rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300';
+
+          card.innerHTML = `
+            <img src="${movie.poster_url}" alt="Poster of ${movie.title}" class="rounded-xl mb-4 w-full h-72 object-cover">
+            <div class="flex justify-between items-start mb-2">
+              <div>
+                <h3 class="text-2xl font-semibold">${movie.title}</h3>
+                <p class="text-sm text-gray-300">${movie.release_year}</p>
+              </div>
+            </div>
+            <div class="mt-2">
+              <span class="inline-block bg-blue-600 text-xs font-medium px-3 py-1 rounded-full">${movie.genre}</span>
+            </div>
+            <p class="text-sm text-gray-300 mt-2">${movie.description}</p>
+          `;
+
+          movieGrid.appendChild(card);
+        });
+
+      } catch (err) {
+        movieGrid.innerHTML = '<p class="text-red-400 text-center">⚠️ Failed to load movies. Check server.</p>';
+        console.error(err);
+      }
+    }
+
+    loadMovies();
+  </script>
+</body>
+</html>
